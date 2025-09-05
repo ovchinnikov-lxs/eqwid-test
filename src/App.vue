@@ -1,11 +1,18 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useCartStore } from '@/stores/cart'
+import { onMounted } from 'vue'
+import AppHeader from '@/components/App/AppHeader.vue'
+
+const cart = useCartStore()
+onMounted(() => cart.init())
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
-</template>
+  <div class="min-h-dvh bg-gray-50 text-gray-900">
+    <AppHeader />
 
-<style scoped></style>
+    <main class="mx-auto max-w-6xl px-4 py-4">
+      <RouterView :key="$route.fullPath" />
+    </main>
+  </div>
+</template>
