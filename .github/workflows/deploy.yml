@@ -12,7 +12,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: 'pages'
+  group: pages
   cancel-in-progress: true
 
 jobs:
@@ -22,26 +22,29 @@ jobs:
       VITE_ECWID_STORE_ID: ${{ vars.VITE_ECWID_STORE_ID || secrets.VITE_ECWID_STORE_ID }}
       VITE_ECWID_PUBLIC_TOKEN: ${{ vars.VITE_ECWID_PUBLIC_TOKEN || secrets.VITE_ECWID_PUBLIC_TOKEN }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
 
-      - name: Enable corepack
+      - name: Enable Corepack (pnpm from packageManager)
         run: corepack enable
 
-      - name: Install deps
+      - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Build
         run: pnpm build
 
-      - name: SPA fallback
+      - name: SPA fallback (copy 404.html)
         run: cp dist/index.html dist/404.html
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
@@ -52,5 +55,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - id: deployment
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
