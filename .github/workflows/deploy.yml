@@ -17,6 +17,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      VITE_ECWID_STORE_ID: ${{ vars.VITE_ECWID_STORE_ID || secrets.VITE_ECWID_STORE_ID }}
+      VITE_ECWID_PUBLIC_TOKEN: ${{ vars.VITE_ECWID_PUBLIC_TOKEN || secrets.VITE_ECWID_PUBLIC_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
