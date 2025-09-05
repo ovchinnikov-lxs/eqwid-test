@@ -133,7 +133,12 @@ const fetchSubcategories = async () => {
 
 const fetchProducts = async () => {
   try {
-    productsList.value = (await getProducts()).items || []
+    productsList.value =
+      (
+        await getProducts({
+          category: categoryId,
+        })
+      ).items || []
   } catch (e) {
     console.error('Error fetching products:', e)
   } finally {
